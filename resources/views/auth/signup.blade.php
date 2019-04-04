@@ -1,52 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>サインアップ</title>
-</head>
-<body>
-    <ul>
-    </ul>
+@extends('layouts.master')
+@section('title', 'サインアップ')
+@section('content')
 
-    <form method="post">
-        @csrf
+<form method="post">
+    @csrf
+    <div class="form-group">
+        <label for="input-email">Email address</label>
+        <input name="email" type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" id="input-email" aria-describedby="emailHelp"
+            placeholder="sample@example.com">
+        <ul class="invalid-feedback">
+            @foreach($errors->get('email') as $message)
+            <li>{{ $message }}</li>
+            @endforeach
+        </ul>
+    </div>
+    <div class="form-group">
+        <label for="input-password">Password</label>
+        <input name="password" type="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" id="input-password">
+        <ul class="invalid-feedback">
+            @foreach($errors->get('password') as $message)
+            <li>{{ $message }}</li>
+            @endforeach
+        </ul>
+    </div>
 
-        <p>
-        Eメールアドレス: <input name="email" type="email" value="{{ old('email') }}">
-        </p>
-        @if($errors->has('email'))
-            <ul>
-                @foreach($errors->get('email') as $message)
-                    <li>{{ $message }}</li>
-                @endforeach
-            </ul>
-        @endif
 
-        <p>
-            パスワード: <input name="password" type="password">
-        </p>
-        @if($errors->has('password'))
-            <ul>
-                @foreach($errors->get('password') as $message)
-                    <li>{{ $message }}</li>
-                @endforeach
-            </ul>
-        @endif
+    <div class="form-group">
+        <label for="input-password-confirmation">Password Confirmation</label>
+        <input name="password_confirmation" type="password" class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}"
+            id="input-password-confirmation">
+        <ul class="invalid-feedback">
+            @foreach($errors->get('password_confirmation') as $message)
+            <li>{{ $message }}</li>
+            @endforeach
+        </ul>
+    </div>
 
-        <p>
-            パスワードの確認: <input name="password_confirmation" type="password">
-        </p>
-        @if($errors->has('password_confirmation'))
-            <ul>
-                @foreach($errors->get('password_confirmation') as $message)
-                    <li>{{ $message }}</li>
-                @endforeach
-            </ul>
-        @endif
-
-        <button type="submit">登録する</button>
-    </form>
-    @php dd($errors->all()) @endphp
-</body>
-</html>
+    <button type="submit" class="btn btn-primary">登録する</button>
+</form>
+@endsection
