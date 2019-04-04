@@ -15,6 +15,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/login') }}">ログイン</a>
                 </li>
+                @elseif(auth()->user())
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/bookshelf') }}">本棚</a>
+                </li>
                 @endif
             </ul>
 

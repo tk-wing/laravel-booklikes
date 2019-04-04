@@ -23,3 +23,5 @@ Route::get('/login', 'Auth\AuthController@index');
 Route::post('/login', 'Auth\AuthController@login');
 Route::get('/logout', 'Auth\AuthController@logout');
 Route::get('/home', 'HomeController@index');
+Route::get('/bookshelf', 'Auth\BookshelfController@create');
+Route::post('/bookshelf', 'Auth\BookshelfController@store');
