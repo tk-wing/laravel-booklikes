@@ -1,6 +1,6 @@
 <?php
 
-namespace App\models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +9,14 @@ class Bookshelf extends Model
     protected $table = 'bookshelves';
     protected $primaryKey = 'id';
     protected $fillable = ['user_id', 'title'];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class, 'bookshelves_has_categories');
+    }
 
     public function store($request, User $user)
     {

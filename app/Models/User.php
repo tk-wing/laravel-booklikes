@@ -12,6 +12,10 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     protected $fillable = ['email', 'password'];
 
+    public function bookshelves() {
+        return $this->hasMany(Bookshelf::class);
+    }
+
     public function store($request){
         $this->email = $request->email;
         $this->password = Hash::make($request->password);
