@@ -27,3 +27,4 @@ Route::resource('/bookshelf', 'BookshelfController');
 // Route::get('/bookshelf/create', 'BookshelfController@create');
 // Route::post('/bookshelf', 'BookshelfController@store');
 // Route::get('/bookshelf/{bookshelf}', 'BookshelfController@show');
+// Route::patch('/bookshelf/{bookshelf}', 'BookshelfController@update');

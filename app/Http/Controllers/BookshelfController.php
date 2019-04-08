@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BookshelfUpdateRequest;
 use App\Http\Requests\BookshelfStoreRequest;
 use App\Models\Bookshelf;
 use App\Models\Category;
@@ -71,8 +72,11 @@ class BookshelfController extends Controller
      */
     public function show(Bookshelf $bookshelf)
     {
+        $categories = Category::all();
+
         return view('bookshelf.show', [
             'bookshelf' => $bookshelf,
+            'categories' => $categories,
         ]);
     }
 
@@ -95,8 +99,18 @@ class BookshelfController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    // public function update(BookshelfUpdateRequest $request, $id)
+    public function update(BookshelfUpdateRequest $request, Bookshelf $bookshelf)
     {
+        // $bookshelf = Bookshelf::find($id);
+        $bookshelf->title = $request->title;
+        $bookshelf->save();
+
+        $categoryIds = new Collection($request->categories);
+        $categoryIds->unique();
+        $bookshelf->categories()->attach($categoryIds);
+
+        return redirect("/bookshelf/{$id}");
     }
 
     /**
@@ -108,5 +122,11 @@ class BookshelfController extends Controller
      */
     public function destroy($id)
     {
+        $bookshelf = Bookshelf::find($id);
+        $bookshelf->categories()->detach();
+
+        $bookshelf->delete();
+
+        return redirect('/bookshelf');
     }
 }

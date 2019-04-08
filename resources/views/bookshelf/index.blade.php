@@ -3,7 +3,7 @@
 @section('content')
 <h2>{{ $user->email }}</h2>
 @foreach ($user->bookshelves as $bookshelf )
-<p>{{ $bookshelf->title }}</p>
+<p><a href="{{ url("/bookshelf/{$bookshelf->id}") }}">{{ $bookshelf->title }}</p></a>
 @foreach ($bookshelf->categories as $category)
 <p>{{ $category->name }}</p>
 @endforeach @endforeach
