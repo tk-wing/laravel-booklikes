@@ -10,7 +10,7 @@
     <div class="form-group">
         <label for="input-email">Email address</label>
         <input name="email" type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" id="input-email" aria-describedby="emailHelp"
-            placeholder="sample@example.com">
+            value="{{ old('email') }}" placeholder="sample@example.com">
         <ul class="invalid-feedback">
             @foreach($errors->get('email') as $message)
             <li>{{ $message }}</li>

@@ -10,4 +10,8 @@ class Category extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['name'];
     public $timestamps = false;
+
+    public function bookshelves(){
+        return $this->belongsToMany(Bookshelf::class, 'bookshelves_has_categories');
+    }
 }

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\CategorySelectedRule;
 
-class BookshelfUpdateRequest extends FormRequest
+class BookStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class BookshelfUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->id === $this->bookshelf->user_id;
+        return true;
     }
 
     /**
@@ -26,8 +25,7 @@ class BookshelfUpdateRequest extends FormRequest
     {
         return [
             'title' => ['required', 'max:191'],
-            // 'categories' => ['required', 'array'],
-            // 'categories.*' => ['integer', 'distinct', new CategorySelectedRule($this->bookshelf)],
+            'category' => ['required', 'exists:categories,id']
         ];
     }
 }

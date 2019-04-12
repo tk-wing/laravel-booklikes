@@ -17,7 +17,7 @@
         <div class="controls">
             @foreach (old('categories', []) as $key => $categoryId)
                 <div class="entry input-group col-xs-3">
-                    <select class="custom-select {{ $errors->has("categories.{$key}") ? 'is-invalid' : '' }}" name="categories[]">
+                    <select class="custom-select {{ $errors->has("categories.{$key}") ? 'is-invalid' : '' }}"  name="categories[]">
                         <option>Open this select menu</option>
                         @foreach($categories as $category)
                             @if( (int) $categoryId === $category->id)
@@ -56,16 +56,14 @@
                 </div>
             @endif
         </div>
-        <pre>
-            {{ var_dump(old('categories')) }}
-        </pre>
-        {{-- <ul class="invalid-feedback">
-            @foreach($errors->get('categories') as $message)
-            <li>{{ $message }}</li>
-            @endforeach
-        </ul> --}}
     </div>
-    <button type="submit" class="btn btn-primary">本棚作成</button>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="1" id="input_auto" name="auto">
+        <label class="form-check-label" for="input_auto">
+             本棚自動登録(同一カテゴリーの本が新規登録された際に自動で登録されます。)
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">本棚作成</button>
 </form>
 @endsection
 

@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\CategorySelectedRule;
 
-class BookshelfUpdateRequest extends FormRequest
+class BookshelfDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +24,7 @@ class BookshelfUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'max:191'],
-            // 'categories' => ['required', 'array'],
-            // 'categories.*' => ['integer', 'distinct', new CategorySelectedRule($this->bookshelf)],
+            //
         ];
     }
 }

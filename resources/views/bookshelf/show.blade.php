@@ -5,40 +5,21 @@
 @foreach ($bookshelf->categories as $category )
 <p>{{ $category->name }}</p>
 @endforeach
-<form method="post">
-    @csrf {{ method_field('patch') }}
-    <div class="form-group">
-        <label for="input_title">タイトルを変更
-            </label>
-        <input name="title" type="text" class="form-control" id="input_title" aria-describedby="emailHelp">
-    </div>
-    <div class="form-group">
-        <div class="controls">
 
-            <div class="entry input-group col-xs-3">
-                <select class="custom-select" name="categories[]">
-                    <option selected>Open this select menu</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-                <?php var_dump($errors); ?>
-                <span class="input-group-btn">
-                        <button class="btn btn-success btn-add" type="button">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </span>
-            </div>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">本棚の内容を変更する</button>
-</form>
-<form method="post">
-    @csrf {{ method_field('delete') }}
-    <div class="form-group">
-        <button type="submit" class="btn btn-danger">この本棚名を削除する</button>
-    </div>
-</form>
+@if(auth()->user()->id === $bookshelf->user_id)
+<a href="{{ url("/bookshelf/{$bookshelf->id }/edit") }}"><button class="btn btn-success">本棚の編集</button></a>
+@endif
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-3">本一覧</h6>
+    @include('parts.card', [
+        'books' => $bookshelf->books,
+        'auth' => auth()->user()->id === $bookshelf->user_id,
+        'removable' => true,
+        'updatable' => true,
+        'deletable' => false
+    ])
+</div>
+
 @endsection
 
 @section('script')

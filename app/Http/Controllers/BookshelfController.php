@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\BookshelfUpdateRequest;
+use App\Http\Requests\BookshelfDeleteRequest;
 use App\Http\Requests\BookshelfStoreRequest;
+use App\Models\Book;
 use App\Models\Bookshelf;
 use App\Models\Category;
 use Illuminate\Support\Collection;
@@ -54,6 +56,7 @@ class BookshelfController extends Controller
         $bookshelf = new Bookshelf();
         $bookshelf->user_id = $user->id;
         $bookshelf->title = $request->title;
+        $bookshelf->auto = $request->get('auto', 0);
         $bookshelf->save();
 
         $categoryIds = new Collection($request->categories);
@@ -73,10 +76,13 @@ class BookshelfController extends Controller
     public function show(Bookshelf $bookshelf)
     {
         $categories = Category::all();
-
+        $bookshelf->load('books');
+        // $books = $bookshelf->books;
+        // dd($books);
         return view('bookshelf.show', [
             'bookshelf' => $bookshelf,
             'categories' => $categories,
+            // 'books' => $books
         ]);
     }
 
@@ -87,8 +93,11 @@ class BookshelfController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Bookshelf $bookshelf)
     {
+        return view('bookshelf.edit', [
+            'bookshelf' => $bookshelf,
+        ]);
     }
 
     /**
@@ -106,11 +115,11 @@ class BookshelfController extends Controller
         $bookshelf->title = $request->title;
         $bookshelf->save();
 
-        $categoryIds = new Collection($request->categories);
-        $categoryIds->unique();
-        $bookshelf->categories()->attach($categoryIds);
+        // $categoryIds = new Collection($request->categories);
+        // $categoryIds->unique();
+        // $bookshelf->categories()->attach($categoryIds);
 
-        return redirect("/bookshelf/{$id}");
+        return redirect("/bookshelf/{$bookshelf->id}");
     }
 
     /**
@@ -120,13 +129,23 @@ class BookshelfController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Bookshelf $bookshelf, BookshelfDeleteRequest $request)
     {
-        $bookshelf = Bookshelf::find($id);
         $bookshelf->categories()->detach();
 
         $bookshelf->delete();
 
         return redirect('/bookshelf');
+    }
+
+    public function add(Bookshelf $bookshelf, Request $request)
+    {
+    }
+
+    public function remove(Bookshelf $bookshelf, Book $book)
+    {
+        $bookshelf->books()->detach($book->id);
+
+        return redirect("/bookshelf/$bookshelf->id");
     }
 }

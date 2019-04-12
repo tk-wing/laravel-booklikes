@@ -17,7 +17,30 @@
                 </li>
                 @elseif(auth()->user())
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/bookshelf') }}">本棚</a>
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="bookshelfDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            本棚
+                              </a>
+                        <div class="dropdown-menu" aria-labelledby="bookshelfDropdown">
+                            <a class="dropdown-item" href="{{ url('/bookshelf') }}">本棚一覧</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url('/bookshelf/create') }}">本棚の作成</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="bookDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                                本
+                                  </a>
+                        <div class="dropdown-menu" aria-labelledby="bookDropdown">
+                            <a class="dropdown-item" href="{{ url('/book') }}">本一覧</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url('/book/create') }}">本の作成</a>
+                        </div>
+                    </div>
                 </li>
                 @endif
             </ul>
