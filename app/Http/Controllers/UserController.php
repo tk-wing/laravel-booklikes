@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Like;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -15,12 +16,24 @@ class UserController extends Controller
      */
     public function index()
     {
-        $auth_id = auth()->user()->id;
+        // $auth_id = auth()->user()->id;
+        // $users = DB::table('users')
+        // ->select('users.*', 'likes.id as like_id', 'likes.user_id', 'likes.liked_user_id')
+        //     ->leftjoin('likes', function($join) use ($auth_id){
+        //         $join->on('users.id', '=', 'likes.liked_user_id')
+        //             ->where('likes.user_id', '=', $auth_id);
+        //     })
+        //     ->get();
+        // dd($users);
         // $users = User::with(['likes' => function($query) use($auth_id){
         //     $query->where('user_id', $auth_id);
         // }])->get();
         // dd($users->toArray());
-        $users = User::with('likes')->get();
+
+        $users = User::with('likedUsers2')->get();
+        // $users->each(function ($user) use ($authedUser) {
+        //     $authedUser->liked($user);
+        // });
 
         return view('user.index', [
             'users' => $users,
@@ -92,12 +105,22 @@ class UserController extends Controller
     {
     }
 
-    public function like($id)
+    public function like(User $user)
     {
-        $like = new Like();
-        $like->user_id = auth()->user()->id;
-        $like->liked_user_id = $id;
-        $like->save();
+        // $like = new Like();
+        // $like->user_id = auth()->user()->id;
+        // $like->liked_user_id = $user->id;
+        // $like->save();
+        // $user->likedUsers2()->attach(auth()->user());
+        auth()->user()->likedUsers()->attach($user);
+
+        return redirect('/user');
+    }
+
+    public function unlike(User $user)
+    {
+        // Like::where('user_id', auth()->user()->id)->where('liked_user_id', $user->id)->delete();
+        auth()->user()->likedUsers()->detach($user);
 
         return redirect('/user');
     }

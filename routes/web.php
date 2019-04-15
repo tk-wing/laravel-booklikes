@@ -29,6 +29,7 @@ Route::resource('/book', 'BookController');
 Route::post('/book/{book}', 'BookController@add');
 Route::resource('/user', 'UserController');
 Route::post('/user/{user}/like', 'UserController@like');
+Route::delete('/user/{user}/like', 'UserController@unlike');
 // Route::get('/bookshelf/create', 'BookshelfController@create');
 // Route::post('/bookshelf', 'BookshelfController@store');
 // Route::get('/bookshelf/{bookshelf}', 'BookshelfController@show');

@@ -21,9 +21,14 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
 
-    public function likes()
+    public function likedUsers()
     {
-        return $this->hasMany(Like::class);
+        return $this->belongsToMany(self::class, 'likes', 'user_id', 'liked_user_id');
+    }
+
+    public function likedUsers2()
+    {
+        return $this->belongsToMany(self::class, 'likes', 'liked_user_id', 'user_id');
     }
 
     public function store($request)
@@ -35,10 +40,19 @@ class User extends Authenticatable
 
     public function liked(User $user)
     {
-        $search = $this->likes->search(function ($like) use ($user) {
-            return $like->liked_user_id === $user->id;
+        $search = $this->likedUsers->search(function ($like) use ($user) {
+            return $like->id === $user->id;
         });
 
         return false !== $search;
     }
+
+    // public function liked2(User $user)
+    // {
+    //     $search = $this->likedUsers2->search(function ($u) use ($user) {
+    //         return $u->id === $user->id;
+    //     });
+
+    //     return false !== $search;
+    // }
 }
