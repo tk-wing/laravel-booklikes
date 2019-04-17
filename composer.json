@@ -57,6 +57,10 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "deploy": [
+            "rsync --exclude ./.* --exclude ./bootstrap --exclude ./storage -r ./* booklikes@52.194.225.190:~/DocumentRoot/",
+            "ssh booklikes@server 'cd /home/booklikes/DocumentRoot && php artisan migrate'"
         ]
     }
 }
