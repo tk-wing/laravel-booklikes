@@ -14,6 +14,11 @@ use App\Models\Evaluation;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +27,7 @@ class BookController extends Controller
     public function index(Bookshelf $bookshelf)
     {
         $books = Book::with('user', 'category')->orderBy('created_at', 'desc')->get();
+
         return view('book.index', [
             'books' => $books,
         ]);
@@ -61,9 +67,10 @@ class BookController extends Controller
 
         $categories = Category::find($request->category);
         $bookshelves = $categories->bookshelves->where('auto', 1);
-        $bookshelves->filter(function($bookshelf) use($book){
+        $bookshelves->filter(function ($bookshelf) use ($book) {
             $book->bookshelves()->attach($bookshelf->id);
         });
+
         return redirect('/book');
     }
 
@@ -135,7 +142,8 @@ class BookController extends Controller
         return redirect('/book');
     }
 
-    public function add(Book $book, BookAddRequest $request) {
+    public function add(Book $book, BookAddRequest $request)
+    {
         $book->bookshelves()->attach($request->bookshelf);
 
         $evaluation = new Evaluation();

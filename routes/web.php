@@ -23,7 +23,7 @@ Route::get('/login', 'Auth\AuthController@index');
 Route::post('/login', 'Auth\AuthController@login');
 Route::get('/logout', 'Auth\AuthController@logout');
 Route::get('/home', 'HomeController@index');
-Route::resource('/bookshelf', 'BookshelfController');
+Route::resource('/bookshelf', 'BookshelfController')->middleware('auth');
 Route::delete('/bookshelf/{bookshelf}/book/{book}', 'BookshelfController@remove');
 Route::resource('/book', 'BookController');
 Route::post('/book/{book}', 'BookController@add');

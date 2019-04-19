@@ -59,7 +59,7 @@
             "@php artisan key:generate --ansi"
         ],
         "deploy": [
-            "rsync --exclude=.* --exclude=/bootstrap --exclude=/storage -r ./* booklikes@52.194.225.190:~/DocumentRoot/",
+            "rsync -e 'ssh -i ~/.ssh/kudo -p 10006' --exclude=.* --exclude=bootstrap --exclude=storage -r ./* booklikes@localhost:~/DocumentRoot/",
             "ssh booklikes@server 'cd /home/booklikes/DocumentRoot && php artisan migrate'"
         ]
     }
